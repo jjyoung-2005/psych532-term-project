@@ -1,0 +1,225 @@
+:root{
+  --blue: #2f5fa8;
+  --blue-dark: #244c86;
+  --ink: #0f172a;
+  --paper: #ffffff;
+  --muted: #475569;
+  --border: rgba(15, 23, 42, 0.15);
+  --shadow: 0 10px 25px rgba(15, 23, 42, 0.12);
+  --radius: 14px;
+  --max: 1050px;
+}
+
+*{ box-sizing: border-box; }
+
+body{
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  color: var(--ink);
+  background: #f6f8fb;
+}
+
+.hero{
+  background: var(--blue);
+  color: white;
+  padding: 44px 18px 34px;
+}
+
+.hero-inner{
+  max-width: var(--max);
+  margin: 0 auto;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+h1{
+  font-family: Georgia, "Times New Roman", Times, serif;
+  margin: 0 0 8px;
+  font-size: clamp(32px, 4vw, 56px);
+  letter-spacing: 0.5px;
+}
+
+.subtitle{
+  margin: 0;
+  opacity: 0.95;
+  font-size: 18px;
+}
+
+.author{
+  opacity: 0.95;
+  font-size: 18px;
+  white-space: nowrap;
+}
+
+.backlink{
+  color: white;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255,255,255,0.35);
+  opacity: 0.95;
+  font-size: 18px;
+  white-space: nowrap;
+}
+
+.wrap{
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 26px 18px 60px;
+}
+
+.intro-card, .content-card{
+  background: var(--paper);
+  border: 2px solid rgba(47, 95, 168, 0.55);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  box-shadow: var(--shadow);
+}
+
+.intro-card h2, .content-card h2{
+  margin: 0 0 10px;
+  font-family: Georgia, "Times New Roman", Times, serif;
+}
+
+/* ROADMAP */
+.roadmap{
+  margin-top: 26px;
+}
+
+.roadmap-title{
+  margin: 0 0 12px;
+  font-family: Georgia, "Times New Roman", Times, serif;
+  color: var(--blue-dark);
+}
+
+/* Centered, fixed-design map area */
+.map{
+  position: relative;
+  width: 100%;
+  max-width: 1000px;
+  height: 270px;
+  margin: 0 auto;
+  border-radius: var(--radius);
+  background:
+    radial-gradient(circle, rgba(47,95,168,0.07) 1.5px, transparent 1.5px),
+    rgba(136, 200, 147, 0.92);
+  background-size: 24px 24px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  box-shadow: 0 8px 18px rgba(255, 255, 255, 0.8);
+}
+
+/* SVG lines behind nodes */
+.map-lines{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.map-road{
+  fill: none;
+  stroke: rgba(0, 0, 0, 0.13);
+  stroke-width: 22;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.map-dashes{
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.5);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 10 8;
+  vector-effect: non-scaling-stroke;
+}
+
+/* Nodes */
+.node{
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: 160px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: var(--blue);
+  color: white;
+  text-decoration: none;
+  box-shadow: 0 10px 20px rgba(47, 95, 168, 0.25);
+  border: 1px solid rgba(255,255,255,0.15);
+  transition: transform 140ms ease, filter 140ms ease;
+  z-index: 2;
+}
+
+.node:hover{
+  transform: translateY(-2px);
+  filter: brightness(1.03);
+}
+
+.node-badge{
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.22);
+  border: 1.5px solid rgba(255,255,255,0.65);
+  font-size: 11px;
+  font-weight: 900;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.node-title{
+  display: block;
+  font-weight: 800;
+  letter-spacing: 0.2px;
+  margin-bottom: 3px;
+  font-size: 15px;
+  line-height: 1.2;
+}
+
+.node-meta{
+  display: block;
+  font-size: 12px;
+  opacity: 0.9;
+}
+
+/* "You are here" state */
+.node.is-here{
+  outline: 3px solid rgba(255, 255, 255, 0.85);
+  box-shadow:
+    0 0 0 4px rgba(47, 95, 168, 0.35),
+    0 16px 28px rgba(47, 95, 168, 0.35);
+}
+
+.node.is-here .node-meta{
+  font-weight: 800;
+  opacity: 1;
+}
+
+/* Mobile: stack (no SVG) */
+@media (max-width: 780px){
+  .map{
+    height: auto;
+    padding: 14px;
+  }
+
+  .map-lines{
+    display: none;
+  }
+
+  .node{
+    position: static;
+    width: 100%;
+    margin: 10px 0;
+  }
+
+  .node-badge{
+    margin-bottom: 8px;
+  }
+}
